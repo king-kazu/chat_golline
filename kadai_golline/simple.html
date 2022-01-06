@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Firebase_version9_RealtimeDB(G'sACADEMY初学者用サンプル)</title>
+<link rel="stylesheet" href="sample.css">
+</head>
+<body>
+
+<!-- コンテンツ表示画面 -->
+
+<div>
+    <div id="output" class="output"></div>
+    <div class="input-style">
+        <p class="title">GOLLINE<p>
+        <div> 
+            <dl class="input-area">
+                <dt class="input-title">チャット名登録</dt><p></p>
+                <dd><input type="text" id="myname" class="box-style" placeholder="例:じゃんゴリ"></dd>
+            </dl>
+        </div>
+        <div> 
+            <dl class="input-area">
+                <dt class="input-title">表示チャット名</dt>
+                <dd><input type="text" id="uname" class="box-style" placeholder="例:じゃんゴリ"></dd>
+            </dl>
+        </div>
+        <div>
+            <dl class="input-area">
+                <dt class="input-title">メッセージ</dt>
+                <dd><textarea id="text" cols="40" rows="2" class="box-style" placeholder="例:エラーやベぇ..."></textarea></dd>
+                <button id="send" class="button-send">送信</button>
+            </dl>
+    </div>
+        <div class="button-wrap">
+            <button id="delete" class="button-all-delete">チャット全削除</button>
+            
+        </div>
+    </div>
+</div>
+<!--/ コンテンツ表示画面 -->
+
+
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- JQuery -->
+
+
+<!--** 以下Firebase **-->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    
+    // import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVmATSIL-S5ovfzNQkTWS6JCDQHUyabAk",
+      authDomain: "gs-chat-dd49d.firebaseapp.com",
+      projectId: "gs-chat-dd49d",
+      storageBucket: "gs-chat-dd49d.appspot.com",
+      messagingSenderId: "494077571018",
+      appId: "1:494077571018:web:db09b8243edb5f45bee933",
+      measurementId: "G-TVBS56JKFH"
+    };    
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app); //RealtimeDBに接続
+    const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
+    
+    // const analytics = getAnalytics(app);
+     
+    $("#send").on("click", () => {
+        if($("#uname").val() !="" && $("#text").val() != ""){
+            let now = new Date();
+            const msg = {
+            uname : $("#uname").val(),
+            text : $("#text").val(),
+            time : now.getHours() + '時' + now.getMinutes() + '分'
+            }
+            $("#uname").val("");
+            $("#text").val("");
+            const newPostRef = push(dbRef); // データを一意なものにするための記述
+            set(newPostRef, msg); // データを保存 
+            }    
+    });
+    
+    //メッセージ表示
+    onChildAdded(dbRef, (data) => {
+        const msg = data.val();
+        const key = data.key;
+        const myname = $("#myname").val();
+        console.log(msg.time)
+
+        if(data.val().uname == $("#myname").val())
+        {let str = 
+                `<div class="line-bc">
+                    <div class="mycomment">
+                        <p>${msg.text}</p>     
+                    </div>
+                    <p class="time">${msg.time}</p>
+                    <p id="${key}" class="delete delete-right">x削除</p>
+                </div>`;
+                $("#output").append(str); //#outputの最後に追加
+                } else {
+                  let str = 
+                    `<div class="line-bc">
+                        <div class="balloon6">
+                            <div class="faceicon">
+                                <img src="shoulder_gori.png" class="faceicon">
+                            </div>
+                            <div class="chatting">
+                                <div class="says">
+                                    <di class="message">${msg.text}</di>
+                                </div>
+                                <p class="time-r">${msg.time}</p>
+                                <div>
+                                    <p class="uname">${msg.uname}</p>   
+                                </div>
+                            </div>
+                            
+                            <p id="${key}" class="delete">x削除</p>
+                        </div>
+                    </div>`;
+                $("#output").append(str); //#outputの最後に追加
+                }
+    });
+
+    //Enterキーで送信
+    $("#text").on("keydown", (event) => {
+        if($("#uname").val() !="" && $("#text").val() != ""){
+            if(event.keyCode === 13) {
+            let now = new Date();
+            const msg = {
+            uname : $("#uname").val(),
+            text : $("#text").val(),
+            time : now.getHours() + '時' + now.getMinutes() + '分'
+            }
+
+            $("#uname").val("");
+            $("#text").val("");
+            const newPostRef = push(dbRef); // データを一意なものにするための記述
+            set(newPostRef, msg); // データを保存 
+            }   
+        }
+    });
+
+    //投稿内容を削除
+    $(document).on("click", ".delete", function(){
+        let confirm = window.confirm("メッセージを削除してよろしいですか")
+        if(confirm) {
+        let value = $(this).attr("id");
+        remove(ref(db, "chat/"+ value))
+        $(this).parent().remove()
+        }
+    });
+
+    //データ全削除
+    $("#delete").on("click", () => { 
+        remove(dbRef)
+        $("#output").remove();      
+    });
+
+</script>
+
+
+</body>
+</html>

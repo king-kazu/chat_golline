@@ -1,0 +1,185 @@
+  body {
+    background-color:lightskyblue;
+  }
+
+  .title {
+    color:springgreen;
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .output {
+    max-height: 400px;
+    overflow: auto;
+    border-bottom: black; 
+  }
+
+  .line-bc {
+    padding: 0 10px;
+    max-width: 450px;
+    margin: 15px auto;
+    text-align: right;
+    font-size: 16px;
+  }
+  
+  /*以下、②左側のコメント*/
+  .balloon6 {
+    width: 100%;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+  
+  .balloon6 .faceicon {
+    float: left;
+    margin-right: -50px;
+    width: 70px;
+  }
+  
+  .balloon6 .faceicon img{
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+  .balloon6 .chatting {
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
+  }
+  .says {
+    display: inline-block;
+    position: relative; 
+    margin: 0 0 0 70px;
+    padding: 10px;
+    max-width: 250px;
+    border-radius: 12px;
+    background: #edf1ee;
+    
+  }
+  
+  .says:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 3px; 
+    left: -19px;
+    border: 8px solid transparent;
+    border-right: 18px solid #edf1ee;
+    -webkit-transform: rotate(35deg);
+    transform: rotate(35deg);
+  }
+
+  .says p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /*以下、③右側の緑コメント*/
+  .mycomment {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+  
+  .mycomment p {
+    display: inline-block;
+    position: relative; 
+    margin: 0 10px 0 0;
+    padding: 10px;
+    max-width: 250px;
+    border-radius: 12px;
+    background: #30e852;
+    font-size: 15px;
+  }
+  
+  .mycomment p:after {
+    content: "";
+    position: absolute;
+    top: 3px; 
+    right: -19px;
+    border: 8px solid transparent;
+    border-left: 18px solid #30e852;
+    -webkit-transform: rotate(-35deg);
+    transform: rotate(-35deg);
+  }
+
+  .delete {
+      text-align: left;
+      margin:0 0 0 0px;
+      font-size: 12px;
+  }
+
+  .delete-right {
+      text-align: right;
+      margin: 0;
+      font-size: 12px;
+  }
+
+  .input-area {
+    display: flex;
+    margin: 10px 0 0 0;
+  }
+
+  .input-title {
+    width: 140px;
+    text-align: right;
+  }
+
+  .box-style {
+      border-radius: 7px;
+      padding: 5px;
+  }
+
+  .input-style {
+      background-color:snow;
+      border-radius: 15px;
+      padding: 10px;
+
+  }
+
+  .uname {
+      margin:  0 0 15px;
+  }
+
+  .massage {
+      font-size: 15px;
+  }
+
+  .button-wrap {
+      display: flex;
+      /* margin-left: 180px; */
+  }
+
+  .button-send {
+      background-color:royalblue;
+      color: #fff;
+      margin: 5px 0 0 10px;
+      /* padding: 5px 15px; */
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      height: 40px;
+      width: 60px;
+
+  }
+
+  .button-all-delete {
+      background-color: red;
+      color: #fff;
+      font-size: 12px;
+      margin-left: 10px;
+      border-radius: 8px;
+      border: none;
+  }
+
+  .time {
+      font-size: 9px;
+      margin: 0;
+  }
+
+  .time-r {
+      font-size: 9px;
+      margin: 0;
+      text-align: left;
+      margin:10px 0 0 100px;    
+  }
